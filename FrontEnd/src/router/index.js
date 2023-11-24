@@ -8,6 +8,8 @@ import List_trademark from '../views/admin/ListTrademark.vue';
 import List_Category from '../views/admin/List_Category.vue';
 import Demo from '../views/admin/HomeDemo.vue'
 import Renevue from '../views/admin/Revenue.vue'
+import Info from '../views/Info.vue'
+import Order from '../views/admin/Order.vue'
 // import Stored from
 // import Edit from 
 
@@ -23,6 +25,10 @@ const routes = [
     {
         path: '/admin/listTrademark',
         component: List_trademark
+    },,
+    {
+        path: '/admin/order',
+        component: Order
     },
     {
         path:"/admin/list_user",
@@ -54,6 +60,12 @@ const routes = [
         path: '/login',
         name: 'login',
         component: Login,
+    },
+
+    {
+        path: '/info',
+        name: 'info',
+        component: Info,
     },
     {
         path: '/:pathMatch(.*)*',

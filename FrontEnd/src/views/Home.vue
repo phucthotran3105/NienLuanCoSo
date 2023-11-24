@@ -63,7 +63,7 @@
           <div class="card-container">
             <div type="button" data-toggle="modal" data-target="#exampleModalCenter" class="col-lg-4 ml-1 col-md-6"
 
-              v-for="product in filteredProducts" :key="product.id">
+              v-for="product in product" :key="product.id">
 
               <div @click="copyID(product._id)" class="card d-flex flex-column align-items-center">
                 <div class="discount-tt">EXTRA SALE</div>
@@ -145,7 +145,6 @@
 
   <!-- Phân trang -->
 
-<fotter class="fott"></fotter>
 </template>
 <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
 <script>

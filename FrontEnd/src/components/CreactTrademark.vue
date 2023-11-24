@@ -1,5 +1,6 @@
 <template>
-    <!-- Button trigger modal -->
+    <div>
+        <!-- Button trigger modal -->
     <button type="button" class="btn item-admin " data-toggle="modal" data-target="#exampleModal1">
         Thêm Thương Hiệu
     </button>
@@ -27,6 +28,7 @@
                 </form>
             </div>
         </div>
+    </div>
     </div>
 </template>
 <script>
