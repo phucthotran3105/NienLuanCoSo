@@ -4,7 +4,7 @@ const middlewareController = {
     //verifyToken
     verifyToken: (req, res, next) => {
         const token = req.headers['authorization'];
-        //console.log(req);
+        // console.log(token);
         if (token) {
             const accessToken_1 = token.split(" ")[1];
             const accessToken = accessToken_1.substr(1, accessToken_1.length - 2)
@@ -27,6 +27,7 @@ const middlewareController = {
         middlewareController.verifyToken(req, res, () => {
             //console.log(req.user);
             //console.log(accessToken);
+            console.log(req.user)
             if (req.user.admin == true){
                 next();
             }

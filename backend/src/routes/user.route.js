@@ -7,4 +7,6 @@ const router = express.Router();
 router.get("/", middlewareController.verifyTokenAndAdminAuth, userController.getAllUser);
 router.delete("/:id", middlewareController.verifyTokenAndAdminAuth, userController.deleteUser);
 router.get('/show', middlewareController.verifyToken, userController.getOneUser);
+router.get('/me', middlewareController.verifyToken, userController.getMe);
+router.put('/me', middlewareController.verifyToken, userController.updateMe);
 export default router;

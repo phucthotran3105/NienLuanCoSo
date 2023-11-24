@@ -11,11 +11,7 @@ const Cart = new mongoose.Schema(
                 quantity: { type: Number },
             }
         ],
-        // money: {
-        //     type: Number
-        // }
     },
-
     { timestamps: true },
     { collection: 'Cart' }
 )

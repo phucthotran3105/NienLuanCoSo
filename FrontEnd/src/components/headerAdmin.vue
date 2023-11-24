@@ -2,34 +2,37 @@
     <div>
         <div class="form-admin">
             <div class="container">
-                <div class="row">
-                    <div class="col-sm">
+                <div class="d-flex justify-content-between">
+                    <div class="">
                         <router-link to="/demo" class="item-admin"> Home Demo</router-link>
                     </div>
 
-                    <div class="col-sm">
+                    <div class="">
                         <router-link to="/admin" class="item-admin"> Kho sản phẩm </router-link>
 
                     </div>
-                    <div class="col-sm">
+                    <div class="">
                         <router-link to="/admin/listTrademark" class="item-admin"> DS thương hiệu </router-link>
                         <!-- <CreactTrademark></CreactTrademark> -->
                     </div>
-                    <div class="col-sm">
+                    <div class="">
                         <!-- <CreateProductPortfolio></CreateProductPortfolio> -->
                         <router-link to="/admin/List_Category" class="item-admin"> DS danh mục </router-link>
                     </div>
-                    <div class="col-sm">
+                    <div class="">
                         <router-link to="/admin/list_user" class="item-admin"> Tài khoản </router-link>
                     </div>
-                    <div class="col-sm">
+                    <div class="">
+                        <router-link to="/admin/order" class="item-admin"> Order </router-link>
+                    </div>
+                    <div class="">
                         <router-link to="/admin/revenue" class="item-admin"> Doanh thu </router-link>
 
                     </div>
                 </div>
-                <div class="logoutad">
+                <!-- <div class="logoutad">
                     <button @click="logOut2" class="item-admin2">Logout</button>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -49,7 +52,6 @@ export default {
 <style scoped>
 .container {
     position: relative;
-    top: 35px;
 }
 
 .item-admin {
