@@ -12,6 +12,7 @@ import ThuongHieuRouter from './routes/ThuongHieu.route.js';
 import CartRouter from './routes/cart.js';
 import revenue from './routes/revenue.js';
 import routerOrder from './routes/order.route.js'
+import routerAddress from './routes/address.route.js'
 
 dotenv.config();
 connectDB();
@@ -33,6 +34,7 @@ app.use("/api/thuonghieu", ThuongHieuRouter);
 app.use("/api/cart", CartRouter);
 app.use("/api/order", routerOrder);
 app.use("/api/revenue", revenue);
+app.use("/api/address", routerAddress);
 
 const port = 3000;
 

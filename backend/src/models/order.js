@@ -2,10 +2,9 @@ import mongoose from "mongoose";
 
 const Order = new mongoose.Schema(
   {
-    sdt: [{ type: Number }],
-    duong: { type: String },
-    huyen: { type: String },
-    tp: { type: String },
+    phone: [{ type: Number }],
+    name: { type: String },
+    address: { type: String },
     status: { type: Boolean },
     products: [
       {
