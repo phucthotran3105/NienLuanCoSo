@@ -11,8 +11,8 @@
             <th>Người Dùng</th>
             <th>Ảnh</th>
             <th>Tên Sản Phẩm</th>
-            <th>Thời Gian Order</th>
             <th>Tổng Tiền</th>
+            <th>Thời Gian Order</th>
             <th>Trạng Thái</th>
             <th>Thao Tác</th>
           </tr>
@@ -66,7 +66,7 @@
                 class="form-center"
                 :style="{ height: `${item.products.length * 50}px` }"
               >
-                {{ dayjs(item.createdAt).format("DD-MM-YYYY") }}
+                {{ dayjs(item.createdAt).format("hh:mm ngày DD-MM-YYYY") }}
               </span>
             </td>
             <td>

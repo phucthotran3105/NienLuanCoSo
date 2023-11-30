@@ -112,30 +112,102 @@
               }}
             </div>
           </div>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#exampleModalCenterAdd"
+          >
+            Chọn địa chỉ giao hàng
+          </button>
+          <div
+            class="modal fade"
+            id="exampleModalCenterAdd"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">
+                    Địa chỉ của tôi
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body container-modal">
+                  <div class="d-flex" :style="{ flexDirection: 'column' }">
+                    <div
+                      v-for="e in address"
+                      :key="e"
+                      class="py-2 my-2 d-flex align-items-center form-address"
+                      :class="{
+                        'form-address-active': e._id === addressActive,
+                      }"
+                      @click="setAddress(e)"
+                    >
+                      <div
+                        class="container-icon"
+                        v-if="e._id === addressActive"
+                      ></div>
+                      <div>
+                        <div class="d-flex align-items-center my-2 fs-13">
+                          <span class="font-weight-bold mr-2">Tên: </span>
+                          <span>{{ e.name }}</span>
+                        </div>
+                        <div class="d-flex align-items-center my-2 fs-13">
+                          <span class="font-weight-bold mr-2"
+                            >Số Điện Thoại:
+                          </span>
+                          <span>{{ e.phone }}</span>
+                        </div>
+                        <div class="my-2 fs-13">
+                          <span class="d-block font-weight-bold mr-2"
+                            >Địa Chỉ Chi Tiết :
+                          </span>
+                          <span v-html="e.address"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-dismiss="modal"
+                  >
+                    Đóng
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div style="text-align: center; margin: 10px">Địa chỉ giao hàng</div>
           <div class="d-flex" :style="{ flexDirection: 'column' }">
-            <div
-              v-for="e in address"
-              :key="e"
-              class="py-2 my-2 d-flex align-items-center form-address"
-              :class="{'form-address-active': e._id === addressActive}"
-              @click="setAddress(e)"
-            >
-              <div class="container-icon" v-if="e._id === addressActive"></div>
+            <div class="py-2 my-2 d-flex align-items-center form-address">
               <div>
                 <div class="d-flex align-items-center my-2 fs-13">
                   <span class="font-weight-bold mr-2">Tên: </span>
-                  <span>{{ e.name }}</span>
+                  <span>{{ infoAddress.name }}</span>
                 </div>
                 <div class="d-flex align-items-center my-2 fs-13">
                   <span class="font-weight-bold mr-2">Số Điện Thoại: </span>
-                  <span>{{ e.phone }}</span>
+                  <span>{{ infoAddress.phone }}</span>
                 </div>
                 <div class="my-2 fs-13">
                   <span class="d-block font-weight-bold mr-2"
                     >Địa Chỉ Chi Tiết :
                   </span>
-                  <span v-html="e.address"></span>
+                  <span v-html="infoAddress.address"></span>
                 </div>
               </div>
             </div>
@@ -383,7 +455,7 @@ export default {
             name: data[0].name,
             phone: data[0].phone,
             address: data[0].address,
-          }
+          };
           this.address = data;
         }
       } catch (error) {
@@ -700,6 +772,10 @@ input:focus::-webkit-input-placeholder {
   background: rgb(248, 235, 211);
   position: relative;
   overflow: hidden;
+}
+.container-modal{
+  max-height: 400px !important;
+  overflow-y: auto !important;
 }
 .form-address-active {
   border-top: 1px solid red;

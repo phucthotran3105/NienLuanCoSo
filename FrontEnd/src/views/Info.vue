@@ -88,7 +88,7 @@
               v-for="order in orders"
               :key="order._id"
             >
-              <div class="products">
+              <div class="products flex-1">
                 <div
                   :class="`${index !== 0 ? 'mt-2' : ''}`"
                   v-for="(product, index) in order.products"
@@ -100,11 +100,23 @@
                   </div>
                 </div>
               </div>
-              <div class="order-price">
-                <span :class="`${order.status ? 'approve' : 'pending'}`">{{
-                  !order.status ? "Đang Chờ Xác Nhận" : "Đã Xác Nhận Đơn Hàng"
-                }}</span>
-                <span class="price">
+              <div
+                style="
+                   {
+                    width: 30%;
+                  }
+                "
+                class="text-grey"
+              >
+                <i class="fas fa-ambulance text-grey"></i> {{ dayjs(order.createdAt).format("DD-MM-YYYY") }}
+              </div>
+              <div class="order-price flex-1">
+                <div class="text-right">
+                  <span :class="`${order.status ? 'approve' : 'pending'}`">{{
+                    !order.status ? "Đang Chờ Xác Nhận" : "Đã Xác Nhận Đơn Hàng"
+                  }}</span>
+                </div>
+                <span class="price text-right">
                   {{ new Intl.NumberFormat().format(sumPrice(order)) }} đ
                 </span>
               </div>
@@ -191,47 +203,50 @@
                 </div>
               </div>
             </div>
-            <div v-for="add in addressData" :key="add._id" class="my-2">
-              <div class="card position-relative">
-                <div class="card-body">
-                  <div
-                    class="d-flex align-items-center position-absolute action-add"
-                  >
-                    <button
-                      type="button"
-                      class="btn btn-warning mr-2"
-                      data-toggle="modal"
-                      data-target="#exampleModalCenter"
-                      @click="modalOpen(add)"
+            <template v-if="addressData.length">
+              <div v-for="add in addressData" :key="add._id" class="my-2">
+                <div class="card position-relative">
+                  <div class="card-body">
+                    <div
+                      class="d-flex align-items-center position-absolute action-add"
                     >
-                      <i class="fas fa-broom mr-1" />Sửa
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      data-toggle="modal"
-                      data-target="#exampleModal"
-                      @click="deleteId = add._id"
-                    >
-                      <i class="fas fa-box-open" />
-                      Xoá
-                    </button>
-                  </div>
-                  <span class="font-weight-bold"
-                    ><i class="fa fa-user-circle mr-2" />{{ add.name }}</span
-                  >
-                  <span class="d-block my-2">
-                    <i class="fa fa-phone mr-2" />{{ add.phone }}</span
-                  >
-                  <span>
-                    <div class="font-weight-bold">
-                      <i class="far fa-address-card mr-2" /> Địa chỉ
+                      <button
+                        type="button"
+                        class="btn btn-warning mr-2"
+                        data-toggle="modal"
+                        data-target="#exampleModalCenter"
+                        @click="modalOpen(add)"
+                      >
+                        <i class="fas fa-broom mr-1" />Sửa
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                        @click="deleteId = add._id"
+                      >
+                        <i class="fas fa-box-open" />
+                        Xoá
+                      </button>
                     </div>
-                    <span class="text-style" v-html="add.address"></span>
-                  </span>
+                    <span class="font-weight-bold"
+                      ><i class="fa fa-user-circle mr-2" />{{ add.name }}</span
+                    >
+                    <span class="d-block my-2">
+                      <i class="fa fa-phone mr-2" />{{ add.phone }}</span
+                    >
+                    <span>
+                      <div class="font-weight-bold">
+                        <i class="far fa-address-card mr-2" /> Địa chỉ
+                      </div>
+                      <span class="text-style" v-html="add.address"></span>
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </template>
+            <div v-else class="my-5 text-center">Bạn chưa có địa chỉ nào</div>
           </div>
         </template>
       </div>
@@ -293,6 +308,7 @@ import {
 import { onMounted, ref } from "vue";
 import { inject } from "vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import dayjs from "dayjs";
 
 const startLoading = inject("startLoading");
 const stopLoading = inject("stopLoading");
@@ -476,11 +492,14 @@ onMounted(() => {
 }
 
 .products {
-  flex: 1;
 }
 
+.flex-1 {
+  flex: 1;
+}
 .product-list {
   border-bottom: 1px solid #999;
+  justify-content: space-between;
 }
 
 .img-product {
@@ -497,5 +516,8 @@ onMounted(() => {
   color: #888;
   font-size: 14px;
   font-style: italic;
+}
+.text-grey {
+  color: #777;
 }
 </style>

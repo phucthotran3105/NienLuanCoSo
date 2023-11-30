@@ -106,6 +106,12 @@ export default {
     }
   },
 
+  mounted(){
+    if(localStorage.getItem('Token')) {
+      this.check = true
+    }
+  },
+
   methods: {
     async showData() {
       const token = JSON.parse(localStorage.getItem("Token"));
