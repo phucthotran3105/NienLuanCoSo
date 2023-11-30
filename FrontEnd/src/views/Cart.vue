@@ -484,7 +484,7 @@ export default {
         return alert("Vui lòng nhập địa chỉ giao hàng");
       }
       const dataOrder = {
-        ...this.deliveryAddress,
+        ...this.infoAddress,
         products: this.showProduct.map((product) => ({
           info: product._id,
           quantity: product.quantity,

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Order = new mongoose.Schema(
   {
-    phone: [{ type: Number }],
+    phone: { type: Number },
     name: { type: String },
     address: { type: String },
     status: { type: Boolean },

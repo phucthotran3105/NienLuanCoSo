@@ -43,6 +43,7 @@ const orderApi = {
   add: async (req, res) => {
     const data = req.body;
     const user = req.user;
+    console.log(data)
     try {
       await OrderModel.create({
         ...data,

@@ -5,119 +5,156 @@
       <div class="headanhmuc mb-5">
         <h3 class="abc">DANH SÁCH ORDER</h3>
       </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Người Dùng</th>
-            <th>Ảnh</th>
-            <th>Tên Sản Phẩm</th>
-            <th>Tổng Tiền</th>
-            <th>Thời Gian Order</th>
-            <th>Trạng Thái</th>
-            <th>Thao Tác</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="orders.length < 1">
-            <th colspan="8" class="text-center">
-              <h3>Không có Order nào</h3>
-            </th>
-          </tr>
-          <tr v-for="(item, index) in orders" :key="index">
-            <td>
-              <span
-                class="form-center"
-                :style="{ height: `${item.products.length * 50}px` }"
-                >{{ item.user.fullName }}</span
-              >
-            </td>
-            <td>
-              <div
-                class="container-img"
-                v-for="(product, index) in item.products"
-                :key="index"
-              >
-                <img :src="product.info.image.url" class="img-product" />
-              </div>
-            </td>
-            <td>
-              <div
-                class="container-img"
-                v-for="(product, index) in item.products"
-                :key="index"
-              >
-                <span>{{ product.info.name }}</span>
-              </div>
-            </td>
-            <td>
-              <span
-                class="form-center"
-                :style="{
-                  height: `${item.products.length * 50}px`,
-                  color: 'red',
-                  fontWeight: 'bold',
-                }"
-              >
-                {{ new Intl.NumberFormat().format(sumPrice(item)) }} đ
-              </span>
-            </td>
-            <td>
-              <span
-                class="form-center"
-                :style="{ height: `${item.products.length * 50}px` }"
-              >
-                {{ dayjs(item.createdAt).format("hh:mm ngày DD-MM-YYYY") }}
-              </span>
-            </td>
-            <td>
-              <div
-                class="form-center"
-                :style="{ height: `${item.products.length * 50}px` }"
-              >
-                <span :class="`${item.status ? 'approve' : 'pending'}`">{{
-                  !item.status ? "Đang Chờ Xác Nhận" : "Đã Xác Nhận Đơn Hàng"
-                }}</span>
-              </div>
-            </td>
-            <td v-if="!item.status">
-              <div
-                :style="{ height: `${item.products.length * 50}px` }"
-                class="form-center"
-              >
-                <span class="action-approve" @click="approved(item._id)"
-                  >Xác Nhận</span
+      <div :style="{ maxWidth: '1200px', overflow: 'scroll' }">
+        <table class="table" :style="{ maxWidth: '1000px', overflowX: 'auto' }">
+          <thead
+            :style="{ maxWidth: '1000px', height: '100%', overflowX: 'auto' }"
+          >
+            <tr>
+              <th :style="{ minWidth: '150px' }">Người Dùng</th>
+              <th :style="{ minWidth: '150px' }">Ảnh</th>
+              <th :style="{ minWidth: '150px' }">Tên Sản Phẩm</th>
+              <th :style="{ minWidth: '150px' }">Số Lượng</th>
+              <th :style="{ minWidth: '150px' }">Giá</th>
+              <th :style="{ minWidth: '150px' }">Tổng Tiền</th>
+              <th :style="{ minWidth: '150px' }">Thời Gian Order</th>
+              <th :style="{ minWidth: '500px' }">Địa chỉ chi tiết</th>
+              <th :style="{ minWidth: '150px' }">Trạng Thái</th>
+              <th :style="{ minWidth: '150px' }">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody :style="{ maxWidth: '1000px', overflowX: 'auto' }">
+            <tr v-if="orders.length < 1">
+              <th colspan="8" class="text-center">
+                <h3>Không có Order nào</h3>
+              </th>
+            </tr>
+            <tr v-for="(item, index) in orders" :key="index">
+              <td>
+                <span
+                  class="form-center"
+                  :style="{ height: `${item.products.length * 50}px` }"
+                  >{{ item.user.fullName }}</span
                 >
-              </div>
-            </td>
-            <td v-else>
-              <div
-                :style="{ height: `${item.products.length * 50}px` }"
-                class="form-center"
-              >
-                <span>...</span>
-              </div>
-            </td>
-          </tr>
-          <tr v-if="pagination?.total">
-            <th colspan="8" class="text-center">
-              <div class="d-flex justify-content-center">
+              </td>
+              <td>
                 <div
-                  v-for="paginate in pagination?.pageSize ?? 0"
-                  :key="paginate"
-                  class="pagination"
-                  :class="{
-                    'pagination-active':
-                      paginate === (pagination?.currentPage ?? 1),
-                  }"
-                  @click="getOrderData(paginate)"
+                  class="container-img"
+                  v-for="(product, index) in item.products"
+                  :key="index"
                 >
-                  {{ paginate }}
+                  <img :src="product.info.image.url" class="img-product" />
                 </div>
-              </div>
-            </th>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+              <td>
+                <div
+                  class="container-img"
+                  v-for="(product, index) in item.products"
+                  :key="index"
+                >
+                  <span>{{ product.info.name }}</span>
+                </div>
+              </td>
+              <td>
+                <div
+                  class="container-img"
+                  v-for="(product, index) in item.products"
+                  :key="index"
+                >
+                  <span>{{ product.quantity }}</span>
+                </div>
+              </td>
+              <td>
+                <div
+                  class="container-img"
+                  v-for="(product, index) in item.products"
+                  :key="index"
+                >
+                  <span
+                    >{{
+                      new Intl.NumberFormat().format(product.info.price)
+                    }}
+                    đ</span
+                  >
+                </div>
+              </td>
+              <td>
+                <span
+                  class="form-center"
+                  :style="{
+                    height: `${item.products.length * 50}px`,
+                    color: 'red',
+                    fontWeight: 'bold',
+                  }"
+                >
+                  {{ new Intl.NumberFormat().format(sumPrice(item)) }} đ
+                </span>
+              </td>
+              <td>
+                <span
+                  class="form-center"
+                  :style="{ height: `${item.products.length * 50}px` }"
+                >
+                  {{ dayjs(item.createdAt).format("hh:mm ngày DD-MM-YYYY") }}
+                </span>
+              </td>
+              <td>
+                <span
+                  class="adress-style"
+                  :style="{ maxHeight: `${item.products.length * 50}px`, overflowY: 'auto' }"
+                >
+                  <div :style="{fontSize: '12px'}">Người Nhận: {{ item.name }}</div>
+                  <div :style="{fontSize: '12px'}">Số điện thoại: {{ item.phone }}</div>
+                  <div :style="{fontSize: '12px'}">Địa chỉ cụ thể: <span v-html="item.address"></span></div>
+                </span>
+              </td>
+              <td>
+                <div
+                  class="form-center"
+                  :style="{ height: `${item.products.length * 50}px` }"
+                >
+                  <span :class="`${item.status ? 'approve' : 'pending'}`">{{
+                    !item.status ? "Đang Chờ Xác Nhận" : "Đã Xác Nhận Đơn Hàng"
+                  }}</span>
+                </div>
+              </td>
+              <td v-if="!item.status">
+                <div
+                  :style="{ height: `${item.products.length * 50}px` }"
+                  class="form-center"
+                >
+                  <span class="action-approve" @click="approved(item._id)"
+                    >Xác Nhận</span
+                  >
+                </div>
+              </td>
+              <td v-else>
+                <div
+                  :style="{ height: `${item.products.length * 50}px` }"
+                  class="form-center"
+                >
+                  <span>...</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-if="pagination?.total" class="mt-5">
+        <div class="d-flex justify-content-center">
+          <div
+            v-for="paginate in pagination?.pageSize ?? 0"
+            :key="paginate"
+            class="pagination"
+            :class="{
+              'pagination-active': paginate === (pagination?.currentPage ?? 1),
+            }"
+            @click="getOrderData(paginate)"
+          >
+            {{ paginate }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -135,22 +172,23 @@ const pagination = ref();
 
 const sumPrice = (item) => {
   return item.products
-    .map((product) => product.info.price * product.quantity)
+    ?.map((product) => product.info.price * product.quantity)
     .reduce((a, b) => a + b);
 };
 
 const getOrderData = async (page) => {
-  startLoading()
+  startLoading();
   try {
     const { data, pagination: paginate } = await getOrder({
       page: page ?? 1,
     });
     pagination.value = paginate;
     orders.value = data;
+    console.log(data);
   } catch (error) {
     console.log(error);
   } finally {
-    stopLoading()
+    stopLoading();
   }
 };
 
@@ -192,10 +230,11 @@ onMounted(() => {
 }
 .table {
   text-align: center;
-  width: 1150px;
+  max-width: 800px;
+  overflow-x: auto;
   border: 2px solid rgb(212, 212, 212);
   margin-top: 10px;
-  left: -225px;
+  /* left: -225px; */
 }
 .form-center {
   display: flex;
@@ -252,5 +291,10 @@ onMounted(() => {
 .pagination-active {
   background: #535353;
   color: white;
+}
+
+.adress-style {
+  display: flex;
+  flex-direction: column;
 }
 </style>
