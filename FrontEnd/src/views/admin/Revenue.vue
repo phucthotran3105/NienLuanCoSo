@@ -86,18 +86,19 @@ export default {
               let pd = await axios.get(
                 `http://localhost:3000/api/picture/product/${revenueItem._id}`
               );
+              if (pd.data) {
+                // Kiểm tra xem tên sản phẩm đã tồn tại trong đối tượng hay chưa
+                if (!productQuantities[pd.data.name]) {
+                  // Nếu chưa tồn tại, thêm vào đối tượng và đặt số lượng là 0
+                  productQuantities[pd.data.name] = {
+                    SL: 0,
+                    gia: pd.data.price,
+                  };
+                }
 
-              // Kiểm tra xem tên sản phẩm đã tồn tại trong đối tượng hay chưa
-              if (!productQuantities[pd.data.name]) {
-                // Nếu chưa tồn tại, thêm vào đối tượng và đặt số lượng là 0
-                productQuantities[pd.data.name] = {
-                  SL: 0,
-                  gia: pd.data.price,
-                };
+                // Cộng số lượng vào đối tượng
+                productQuantities[pd.data.name].SL += revenueItem.quantity;
               }
-
-              // Cộng số lượng vào đối tượng
-              productQuantities[pd.data.name].SL += revenueItem.quantity;
               resolve();
             })
           );

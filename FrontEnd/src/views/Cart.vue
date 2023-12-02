@@ -336,14 +336,6 @@ export default {
         address: "",
       },
       addressActive: "",
-      deliveryAddress: [
-        {
-          tp: "",
-          huyen: "",
-          duong: "",
-          sdt: "",
-        },
-      ],
 
       Sum_item: [],
       Sum: 0,
@@ -448,6 +440,8 @@ export default {
 
     async getAddress() {
       try {
+        await this.Revenue();
+        await this.updateQuantity();
         const { data } = await getAddressByUser();
         if (data.length) {
           this.addressActive = data[0]._id;
@@ -480,7 +474,7 @@ export default {
       const id_cart = JSON.parse(localStorage.getItem("cart"));
       if (this.showProduct[0].quantity == 0) {
         return alert("Vui lòng thêm sản phẩm");
-      } else if (this.deliveryAddress == "") {
+      } else if (!Object.values(this.infoAddress).filter((e) => e).length) {
         return alert("Vui lòng nhập địa chỉ giao hàng");
       }
       const dataOrder = {
@@ -773,7 +767,7 @@ input:focus::-webkit-input-placeholder {
   position: relative;
   overflow: hidden;
 }
-.container-modal{
+.container-modal {
   max-height: 400px !important;
   overflow-y: auto !important;
 }

@@ -62,7 +62,7 @@
               </div>
             </div>
           </li>
-          <li class="nav-item cart-item">
+          <li class="nav-item cart-item" v-if="checkAuth">
             <router-link class="cart_header" to="/cart">
               <span class="cart_icon">
                 <i
@@ -138,8 +138,7 @@ export default {
     async logOut() {
       localStorage.clear();
       this.checkAuth = false;
-      this.$router.replace({ path: "/home" });
-      window.location.reload();
+      this.$router.replace({ path: "/login" });
     },
   },
 };
