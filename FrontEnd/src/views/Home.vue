@@ -1,6 +1,6 @@
 <template>
-  <Header></Header>
-  <div class="home">
+  <div>
+    <div class="home">
     <div class="container mt-5">
       <div id="content" class="my-5">
         <div id="filterbar1" class="collapse1">
@@ -140,6 +140,7 @@
         </form>
       </div>
     </div>
+  </div>
   </div>
   <!-- modal -->
 

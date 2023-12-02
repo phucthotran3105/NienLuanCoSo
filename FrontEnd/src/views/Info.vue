@@ -95,8 +95,8 @@
                   :key="index"
                 >
                   <div class="d-flex align-items-center">
-                    <img :src="product.info.image.url" class="img-product" />
-                    <span class="ml-2">{{ product.info.name }}</span>
+                    <img :src="product?.info?.image?.url" class="img-product" />
+                    <span class="ml-2">{{ product?.info?.name }}</span>
                   </div>
                 </div>
               </div>

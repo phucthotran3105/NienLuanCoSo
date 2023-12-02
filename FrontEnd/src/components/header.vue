@@ -38,7 +38,7 @@
                     </li> -->
         </ul>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item mr-4" v-if="!this.checkAuth">
+          <li class="nav-item mr-4" v-if="!checkAuth">
             <router-link class="login-cls" to="/login">Đăng nhập</router-link>
           </li>
           <li class="nav-item mr-4" v-else>
@@ -50,7 +50,7 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Xin chào, {{ this.user.fullName }}
+                Xin chào, {{ user.fullName }}
               </div>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" @click="logOut()">Đăng Xuất</a>
@@ -66,9 +66,8 @@
             <router-link class="cart_header" to="/cart">
               <span class="cart_icon">
                 <i
-                  v-if="this.cart.idProduct_item != undefined"
                   class="fas fa-shopping-cart mr-1 bx bx-cart cartNum"
-                  ><span>{{ this.cart.idProduct_item.length }}</span></i
+                  ><span>{{ cart?.idProduct_item?.length ?? 0 }}</span></i
                 >
               </span>
             </router-link>
@@ -92,6 +91,7 @@ export default {
   },
   watch: {
     checkAuth(value) {
+      console.log('auth')
       if (value) {
         this.showData();
         this.getCart()
