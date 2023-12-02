@@ -440,8 +440,6 @@ export default {
 
     async getAddress() {
       try {
-        await this.Revenue();
-        await this.updateQuantity();
         const { data } = await getAddressByUser();
         if (data.length) {
           this.addressActive = data[0]._id;
@@ -471,6 +469,8 @@ export default {
     },
 
     async Oder() {
+      await this.Revenue();
+      await this.updateQuantity();
       const id_cart = JSON.parse(localStorage.getItem("cart"));
       if (this.showProduct[0].quantity == 0) {
         return alert("Vui lòng thêm sản phẩm");
