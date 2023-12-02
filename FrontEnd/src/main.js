@@ -10,5 +10,5 @@ const app = createApp(App)
 app.use(router)
 app.config.globalProperties.$dayjs = dayjs
 app.use(CKEditor)
-
+app.config.unwrapInjectedRef = true;
 app.mount('#app')

@@ -23,6 +23,13 @@
         >
           Cài đặt địa chỉ
         </li>
+        <li
+          class="list-group-item cusor-pointer"
+          :class="{ active: menu === 4 }"
+          @click="menu = 4"
+        >
+          Đổi mật khẩu
+        </li>
       </ul>
       <div class="w-full flex-1 position-relative">
         <template v-if="menu === 1">
@@ -108,7 +115,8 @@
                 "
                 class="text-grey"
               >
-                <i class="fas fa-ambulance text-grey"></i> {{ dayjs(order.createdAt).format("DD-MM-YYYY") }}
+                <i class="fas fa-ambulance text-grey"></i>
+                {{ dayjs(order.createdAt).format("DD-MM-YYYY") }}
               </div>
               <div class="order-price flex-1">
                 <div class="text-right">
@@ -249,6 +257,38 @@
             <div v-else class="my-5 text-center">Bạn chưa có địa chỉ nào</div>
           </div>
         </template>
+        <template v-else>
+          <div>
+            <div class="form-group">
+              <label for="passwordOld">Mật Khẩu Cũ</label>
+              <input
+                v-model="changePassword.pass"
+                type="password"
+                class="form-control"
+                id="passwordOld"
+              />
+            </div>
+            <div class="form-group">
+              <label for="passwordNew">Mật Khẩu Mới</label>
+              <input
+                v-model="changePassword.newPass"
+                type="password"
+                class="form-control"
+                id="passwordNew"
+              />
+            </div>
+            <div class="form-group">
+              <label for="passwordNewConfirm">Nhập Lại Mật Khẩu Mới</label>
+              <input
+                v-model="changePassword.passConfirm"
+                type="password"
+                class="form-control"
+                id="passwordNewConfirm"
+              />
+            </div>
+            <button class="btn btn-primary" @click="changePass">Submit</button>
+          </div>
+        </template>
       </div>
     </div>
     <div
@@ -305,6 +345,7 @@ import {
   updateAddress,
   deleteAddress,
 } from "../api/address.api";
+import {changePasswordApi} from '../api/user.api'
 import { onMounted, ref } from "vue";
 import { inject } from "vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -317,6 +358,12 @@ const userData = ref({
   userName: "",
   fullName: "",
   email: "",
+});
+
+const changePassword = ref({
+  pass: "",
+  newPass: "",
+  passConfirm: "",
 });
 
 const formAddress = ref({
@@ -334,6 +381,19 @@ const openModalDelete = ref("false");
 const addressData = ref([]);
 const updateId = ref("");
 const deleteId = ref("");
+
+const changePass = async () => {
+  if (!Object.values(changePassword.value).every((e)=>e)) {
+    alert("Vui lòng điền thông tin đầy đủ");
+  } else {
+    try {
+      const res = await changePasswordApi({ ...changePassword.value });
+      alert(res?.data?.message ?? 'Vui lòng kiểm tra lại thông tin');
+    } catch (error) {
+      alert("Vui lòng kiểm tra lại thông tin");
+    }
+  }
+};
 
 const sumPrice = (item) => {
   return item.products
