@@ -69,6 +69,7 @@
 import axios from 'axios';
 
 export default {
+  inject: ['checkAuth'],
     data() {
         return {
             user: {
@@ -114,15 +115,15 @@ export default {
             
             await axios.post(`http://localhost:3000/api/auth/login`, this.user)
                 .then(res => {
-                    console.log(res.data);
                     localStorage.setItem('Token', JSON.stringify(res.data.accessToken))
                     localStorage.setItem('cart', JSON.stringify(res.data.cart))
                     if (res.data.admin == true) {
-                        this.$router.replace({path: '/admin' })
+                        this.$router.push('/admin')
                     }
                     if (res.data.admin == false) {
-                        this.$router.replace({path: '/home' })
+                        this.$router.push('/home')
                     }
+                    this.checkAuth = true
                     //this.$router.replace({path:})
                     alert('Dang nhap thanh cong!!!!!')
                   //  this.$router.replace({ path: '/home' })

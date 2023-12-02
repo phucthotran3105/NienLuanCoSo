@@ -1,16 +1,28 @@
 <script setup>
 import Header from "./components/header.vue";
 import Footer from "./components/footer.vue";
-import { provide, ref } from "vue";
+import { onMounted, provide, ref, watchEffect } from "vue";
+const checkAuth = ref(false)
 const loading = ref(false);
+
+onMounted(()=>{
+  if(localStorage.getItem('Token')){
+    checkAuth.value = true
+  } else {
+    checkAuth.value = false
+  }
+})
+
 const startLoading = () => {
   loading.value = true;
 };
 const stopLoading = () => {
   loading.value = false;
 };
+
 provide("startLoading", startLoading);
 provide("stopLoading", stopLoading);
+provide("checkAuth", checkAuth);
 </script>
 
 <template>

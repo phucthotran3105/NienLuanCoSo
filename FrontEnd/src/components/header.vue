@@ -38,10 +38,10 @@
                     </li> -->
         </ul>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item mr-4" v-if="this.check != true">
+          <li class="nav-item mr-4" v-if="!this.checkAuth">
             <router-link class="login-cls" to="/login">Đăng nhập</router-link>
           </li>
-          <li class="nav-item mr-4" v-if="this.check == true">
+          <li class="nav-item mr-4" v-else>
             <div class="dropdown">
               <div
                 type="button"
@@ -54,8 +54,10 @@
               </div>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" @click="logOut()">Đăng Xuất</a>
-                <a class="dropdown-item" >
-                    <router-link class="info-link" to="/info">Thông Tin Của Tôi</router-link>
+                <a class="dropdown-item">
+                  <router-link class="info-link" to="/info"
+                    >Thông Tin Của Tôi</router-link
+                  >
                 </a>
               </div>
             </div>
@@ -63,7 +65,9 @@
           <li class="nav-item cart-item">
             <router-link class="cart_header" to="/cart">
               <span class="cart_icon">
-                <i v-if="this.cart.idProduct_item != undefined" class="fas fa-shopping-cart mr-1 bx bx-cart cartNum"
+                <i
+                  v-if="this.cart.idProduct_item != undefined"
+                  class="fas fa-shopping-cart mr-1 bx bx-cart cartNum"
                   ><span>{{ this.cart.idProduct_item.length }}</span></i
                 >
               </span>
@@ -77,41 +81,23 @@
 <script>
 import axios from "axios";
 export default {
+  inject: ["checkAuth"],
   data() {
     return {
       user: {},
       idcart: "",
-      check: !!localStorage.getItem('Token'),
+      check: localStorage.getItem("Token"),
       cart: [],
     };
   },
-  created() {
-    this.showData();
-
-    this.idcart = JSON.parse(localStorage.getItem("cart"));
-    if (this.idcart != undefined) {
-      axios
-        .get(`http://localhost:3000/api/cart/show/${this.idcart}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Token")}`, // Đính kèm Token vào tiêu đề
-          },
-        })
-        .then((res) => {
-          this.cart = res.data;
-          console.log(this.cart);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+  watch: {
+    checkAuth(value) {
+      if (value) {
+        this.showData();
+        this.getCart()
+      }
+    },
   },
-
-  mounted(){
-    if(localStorage.getItem('Token')) {
-      this.check = true
-    }
-  },
-
   methods: {
     async showData() {
       const token = JSON.parse(localStorage.getItem("Token"));
@@ -131,8 +117,27 @@ export default {
           });
       }
     },
+    async getCart() {
+      this.idcart = JSON.parse(localStorage.getItem("cart"));
+      if (this.idcart != undefined) {
+        axios
+          .get(`http://localhost:3000/api/cart/show/${this.idcart}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`, // Đính kèm Token vào tiêu đề
+            },
+          })
+          .then((res) => {
+            this.cart = res.data;
+            this.check = true;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
     async logOut() {
       localStorage.clear();
+      this.checkAuth = false;
       this.$router.replace({ path: "/home" });
       window.location.reload();
     },
@@ -141,8 +146,8 @@ export default {
 </script>
 
 <style scoped>
-.z-10{
-    z-index: 10 !important;
+.z-10 {
+  z-index: 10 !important;
 }
 .cartNum span {
   background-color: aqua;
@@ -155,8 +160,8 @@ export default {
 }
 
 .info-link {
-    color: black;
-    text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 
 .cart_header {
